@@ -1,0 +1,169 @@
+# TCAD file exploration
+
+We have received files from a client.  They are ....
+
+# Shorten files for browsing
+
+To shorten the files for browsing we can run a short shell script. This opens the zip that was received, and truncates each file at 100 lines long.
+
+```{bash, eval=F}
+# rm -rf shortened_appraisal_files
+unzip original_data/Appraisal_Roll_History_1990.zip -d shortened_appraisal_files
+find shortened_appraisal_files -name "*.TXT" -exec sed -i.full 100q {} \;
+find shortened_appraisal_files -name "*.TXT.full" -exec rm {} \;
+zip -r shortened_appraisal_files.zip shortened_appraisal_files
+```
+
+We can now attempt to load a shortened file using pandas
+
+```{python}
+import pandas as pd
+
+df = pd.read_csv("shortened_appraisal_files/Appraisal_Roll_History_1990_A/TCBC_SUM_1990_JURIS.TXT", sep = "|")
+```
+
+Now confirme we have duckdb installed.
+
+```{bash}
+pip install duckdb==0.7.0
+```
+
+```{python}
+import duckdb
+cursor = duckdb.connect()
+print(cursor.execute('SELECT 42').fetchall())
+```
+
+Now we can read files and speak to duckdb.
+
+Challenge now is to use the *.TDF files to create tables.  I can think of two approaches.
+
+1. The TDF files are SQL, so if those are fed to duckdb they should be able to create tables into which the TXT pipe-separated CSV files can be read.  There may be issues with the datatypes not matching (which would require mapping the current datatype definitions to duckdb datatypes by changing the words used to give the datatype to the columns).
+
+2. Take the column names out of the TDF files and add them as the column names while reading the relevant CSV files into duckdb.  This would use duckdb's auto understanding of the column datatypes (so it would run, but it might guess wrongly and truncate or change data).
+
+I think we should explore step 1 first.
+
+## Creating tables using the TDF files
+
+We have TDF files scattered through the _A and _B folders.  I think for now concentrate on the _A folder.
+
+We can use python to read each TDF file separately, create the table and then try to load the matching TXT file.  A little guidance here:
+http://howisonlab.github.io/datawrangling/faq.html#get-data-from-filenames
+
+```{python}
+import csv
+from pathlib import Path
+import duckdb
+
+cursor = duckdb.connect()
+
+file_directory = 'shortened_appraisal_files/Appraisal_Roll_History_1990_A/'
+limit_to_file = 'TCBC_SUM_1990_CFOR'
+# print(file_directory)
+#print(Path(file_directory))
+
+for filename in Path(file_directory).glob(limit_to_file + '.TDF'):
+  # print(filename)
+  table_name = Path(filename).stem # e.g., TCBC_SUM_1990_CFOR
+  
+  # read .TDF file into string
+  create_table_sql = Path(filename).read_text()
+  
+  # execute that SQL with duckdb, this should create the table
+  cursor.execute(create_table_sql)
+  
+  # copy CSV into duckdb.
+  data_file_ending = ".TXT"
+  path_to_csvpipefile = Path(filename).with_suffix(".TXT")
+  # print(path_to_csvpipefile)
+  # duckdb copy documentation: https://duckdb.org/docs/sql/statements/copy.html
+  query = f"COPY {table_name} FROM '{path_to_csvpipefile}' ( DELIMITER '|')"
+  cursor.execute(query)
+```
+
+
+```{python}
+cursor.execute("SHOW TABLES;").fetchall()
+```
+
+```{python}
+cursor.execute("DESCRIBE TCBC_SUM_1990_CFOR").fetchall()
+```
+
+
+```{python}
+cursor.execute("COPY TCBC_SUM_1990_CFOR FROM 'shortened_appraisal_files/Appraisal_Roll_History_1990_A/TCBC_SUM_1990_CFOR.TXT' ( DELIMITER '|')").fetchall()
+```
+
+
+```{python}
+cursor.execute("SELECT * FROM TCBC_SUM_1990_CFOR").fetchall()
+```
+
+
+```{python}
+cursor.execute("SELECT * FROM read_csv_auto('shortened_appraisal_files/Appraisal_Roll_History_1990_A/TCBC_SUM_1990_CFOR.TXT', delim='|');")
+```
+
+```{r}
+library(DBI)
+library(duckdb)
+```
+
+```{r}
+con <- DBI::dbConnect(duckdb::duckdb(), dbdir = ":memory:")
+dbWriteTable(con, "mpg", ggplot2::mpg)
+```
+
+```{sql, connection="con"}
+SELECT manufacturer, displ, cty
+FROM mpg
+ORDER BY manufacturer, displ DESC
+```
+
+```{sql, connection="con"}
+SHOW TABLES
+```
+
+```{sql, connection="con"}
+CREATE TABLE TCBC_SUM_1990_JURIS (
+AcctNum VARCHAR(10),
+SufxId VARCHAR(4),
+TaxYear VARCHAR(4),
+Juris VARCHAR(2),
+Rate NUMERIC(7,5),
+JurisType VARCHAR(2),
+JurisCED VARCHAR(2),
+MdseVal NUMERIC(11,0),
+FrptVal NUMERIC(11,0),
+FFEVal NUMERIC(11,0),
+VehVal NUMERIC(11,0),
+LVehVal NUMERIC(11,0),
+LeaseVal NUMERIC(11,0),
+OthrVal NUMERIC(11,0),
+TotVal NUMERIC(11,0),
+ExmpVal NUMERIC(11,0),
+BctChgFlag VARCHAR(1),
+ExmpStatFlag VARCHAR(1),
+JurisPctFlag VARCHAR(1),
+FreeportFlag VARCHAR(1),
+FreeportStatus VARCHAR(1),
+AssessVal NUMERIC(13,2),
+TaxFrzVal NUMERIC(13,2),
+TaxBeforeFrz NUMERIC(13,2),
+GenFundTax NUMERIC(13,2),
+SinkFundTax NUMERIC(13,2),
+TotTax NUMERIC(13,2));
+
+
+```
+
+```{sql, connection="con"}
+COPY TCBC_SUM_1990_JURIS 
+FROM 'shortened_appraisal_files/Appraisal_Roll_History_1990_A/TCBC_SUM_1990_JURIS.TXT'  ( DELIMITER '|')
+```
+
+```{sql, connection="con"}
+SELECT * FROM TCBC_SUM_1990_JURIS 
+```
