@@ -22,7 +22,7 @@ import pandas as pd
 df = pd.read_csv("shortened_appraisal_files/Appraisal_Roll_History_1990_A/TCBC_SUM_1990_JURIS.TXT", sep = "|")
 ```
 
-Now confirme we have duckdb installed.
+In Quarto we can use either python or r (or indeed lots of other languages). I tried it with Python, but found I Now confirme we have duckdb installed.
 
 ```{bash}
 pip install duckdb==0.7.0
@@ -48,27 +48,34 @@ I think we should explore step 1 first.
 
 We have TDF files scattered through the _A and _B folders.  I think for now concentrate on the _A folder.
 
-We can use python to read each TDF file separately, create the table and then try to load the matching TXT file.  A little guidance here:
+We can use python to read each TDF file separately, create the table and then try to load the matching TXT file.  A little guidance on how to process a directory structure of files using Path and glob here:
 http://howisonlab.github.io/datawrangling/faq.html#get-data-from-filenames
+
 
 ```{python}
 import csv
 from pathlib import Path
 import duckdb
 
-cursor = duckdb.connect()
+con = duckdb.connect('duckdb-file.db') # string to persist to disk
+cursor = con.cursor()
 
-file_directory = 'shortened_appraisal_files/Appraisal_Roll_History_1990_A/'
-limit_to_file = 'TCBC_SUM_1990_CFOR'
-# print(file_directory)
-#print(Path(file_directory))
+file_directory = 'shortened_appraisal_files/Appraisal_Roll_History_1990_B/'
+# limit_to_file = 'TCBC_SUM_1990_JURIS'
+limit_to_file = '*' # all files
 
 for filename in Path(file_directory).glob(limit_to_file + '.TDF'):
-  # print(filename)
-  table_name = Path(filename).stem # e.g., TCBC_SUM_1990_CFOR
+  print(filename)
+  table_name = Path(filename).stem # e.g., TCBC_SUM_1990_JURIS
   
   # read .TDF file into string
   create_table_sql = Path(filename).read_text()
+  
+  # Here we have the table creation code in a string, so we can
+  # swap datatypes out.
+  # tried SMALLDATETIME --> DATETIME but was still giving errors
+  # will need to fix this later.
+  create_table_sql = create_table_sql.replace("SMALLDATETIME", "TEXT")
   
   # execute that SQL with duckdb, this should create the table
   cursor.execute(create_table_sql)
@@ -76,7 +83,6 @@ for filename in Path(file_directory).glob(limit_to_file + '.TDF'):
   # copy CSV into duckdb.
   data_file_ending = ".TXT"
   path_to_csvpipefile = Path(filename).with_suffix(".TXT")
-  # print(path_to_csvpipefile)
   # duckdb copy documentation: https://duckdb.org/docs/sql/statements/copy.html
   query = f"COPY {table_name} FROM '{path_to_csvpipefile}' ( DELIMITER '|')"
   cursor.execute(query)
@@ -88,23 +94,10 @@ cursor.execute("SHOW TABLES;").fetchall()
 ```
 
 ```{python}
-cursor.execute("DESCRIBE TCBC_SUM_1990_CFOR").fetchall()
+cursor.sql("SELECT * FROM TXBC_SUM_1990_JURIS").to_df()
 ```
 
-
-```{python}
-cursor.execute("COPY TCBC_SUM_1990_CFOR FROM 'shortened_appraisal_files/Appraisal_Roll_History_1990_A/TCBC_SUM_1990_CFOR.TXT' ( DELIMITER '|')").fetchall()
-```
-
-
-```{python}
-cursor.execute("SELECT * FROM TCBC_SUM_1990_CFOR").fetchall()
-```
-
-
-```{python}
-cursor.execute("SELECT * FROM read_csv_auto('shortened_appraisal_files/Appraisal_Roll_History_1990_A/TCBC_SUM_1990_CFOR.TXT', delim='|');")
-```
+Below here shows an R based connection, which allows an {sql} cell type for more convenient querying.
 
 ```{r}
 library(DBI)
@@ -112,56 +105,12 @@ library(duckdb)
 ```
 
 ```{r}
-con <- DBI::dbConnect(duckdb::duckdb(), dbdir = ":memory:")
-dbWriteTable(con, "mpg", ggplot2::mpg)
-```
-
-```{sql, connection="con"}
-SELECT manufacturer, displ, cty
-FROM mpg
-ORDER BY manufacturer, displ DESC
+# con <- DBI::dbConnect(duckdb::duckdb(), dbdir = ":memory:")
+con <- DBI::dbConnect(duckdb::duckdb(), dbdir = "duckdb-file.db")
 ```
 
 ```{sql, connection="con"}
 SHOW TABLES
-```
-
-```{sql, connection="con"}
-CREATE TABLE TCBC_SUM_1990_JURIS (
-AcctNum VARCHAR(10),
-SufxId VARCHAR(4),
-TaxYear VARCHAR(4),
-Juris VARCHAR(2),
-Rate NUMERIC(7,5),
-JurisType VARCHAR(2),
-JurisCED VARCHAR(2),
-MdseVal NUMERIC(11,0),
-FrptVal NUMERIC(11,0),
-FFEVal NUMERIC(11,0),
-VehVal NUMERIC(11,0),
-LVehVal NUMERIC(11,0),
-LeaseVal NUMERIC(11,0),
-OthrVal NUMERIC(11,0),
-TotVal NUMERIC(11,0),
-ExmpVal NUMERIC(11,0),
-BctChgFlag VARCHAR(1),
-ExmpStatFlag VARCHAR(1),
-JurisPctFlag VARCHAR(1),
-FreeportFlag VARCHAR(1),
-FreeportStatus VARCHAR(1),
-AssessVal NUMERIC(13,2),
-TaxFrzVal NUMERIC(13,2),
-TaxBeforeFrz NUMERIC(13,2),
-GenFundTax NUMERIC(13,2),
-SinkFundTax NUMERIC(13,2),
-TotTax NUMERIC(13,2));
-
-
-```
-
-```{sql, connection="con"}
-COPY TCBC_SUM_1990_JURIS 
-FROM 'shortened_appraisal_files/Appraisal_Roll_History_1990_A/TCBC_SUM_1990_JURIS.TXT'  ( DELIMITER '|')
 ```
 
 ```{sql, connection="con"}
