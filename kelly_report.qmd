@@ -11,6 +11,22 @@ This project, started by a faculty colleague in urban studies, has a data dump f
 
 From the given annotated microfiche, it labeled all the tasks with an example of the following information: Parcel, lots size, use, sq ft , effect date built, deed date, land appraised value, improvement appraised value, owner name, mailing address, location, and Legal description. The final outcome to the faculty colleague will present a table in excel sheet that specifically extracts the data of these columns.
 
+![Image 1: Annotated microfiche parcel](Microfiche_images/Parcel%20Number.png)
+
+![Image 2: Annotated microfiche lot size, use code, and sq ft](Microfiche_images/Lot%20size.png)
+
+![Image 3: Annotated microfiche effect date built](Microfiche_images/EYOC.png)
+
+![Image 4: Annotated microfiche deed date](Microfiche_images/Deed%20date.png)
+
+![Image 5: Annotated microfiche land appraised value and improvement appraised value](Microfiche_images/Appr_value%20and%20Impr_value.png)
+
+![Image 6: Annotated microfiche owner name and mailing address](Microfiche_images/name%20and%20mailing.png)
+
+![Image 7: Annotated microfiche location](Microfiche_images/Location.png)
+
+![Image 8: Annotated microfiche legal description](Microfiche_images/Legal%20description.png)
+
 ## Data
 
 There are a total of two sets of folders that are given, the folder is named Appraisal_Roll_History_1990_A and Appraisal_Roll_History_B. Interestingly, these two folders contain the exact same files and in all files it has exactly the same information. This can be shown by running a python code that compare the folder:
