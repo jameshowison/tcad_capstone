@@ -1,0 +1,31 @@
+---
+title: "TCAD Report"
+author: "Kelly Chu"
+format: html
+editor: visual
+---
+
+## Introduction
+
+This project, started by a faculty colleague in urban studies, has a data dump from TCAD on Austin property valuations in 1990 that exported around 2004. Overall, the total size of these files are under 600MB uncompressed. The colleague would like to analyze these databases for his research, so the goal for this project is to gather the information and present the deliverable that would help in the research in the form that the faculty colleague can access it in a format that preferably in an excel sheet for all data. This project is a prototypical combo of archives, databases/data engineering, and some knowledge on geographic information system work.
+From the given annotated microfiche, it labeled all the tasks with an example of the following information: Parcel, lots size, use, sq ft , effect date built, deed date, land appraised value, improvement appraised value, owner name, mailing address, location, and Legal description. The final outcome to the faculty colleague will present a table in excel sheet that specifically extracts the data of these columns.
+
+
+## Datasets
+
+
+## Method and Tools
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
