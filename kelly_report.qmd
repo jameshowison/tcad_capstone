@@ -83,9 +83,20 @@ To accomplish the tasks in this project, we have used Google Sheets to save our 
 
 ## Findings
 
-The deliverable from the annotated microfiche are mostly found in the TXBC (Travis County Extra-territory Basic Code) files. However, the client is not looking for the extra-territory records. This makes some confusion whether or not the TXBC represents the Travis County Extra-territory Basic Code. If not, what is the difference between TXBC and TCBC? 
+The deliverable from the annotated microfiche are mostly found in the TXBC (Travis County Extra-territory Basic Code) files. However, the client is not looking for the extra-territory records. This makes some confusion whether or not the TXBC represents the Travis County Extra-territory Basic Code. If not, what is the difference between TXBC and TCBC?
 
-Looking at the parcel number on the microfiche (Image 1), the sample is having the format of XX-XXXX-XXXX-XXXX. And from the data in TXBC_SUM_1990, the ‘Parcel’ column is presented as a 10-digits number and ‘OwnrId’ is a 4-digits number. It can be figured out that the parcel number from the microfiche is actually split up into ‘Parcel’ and ‘OwnrId’ columns of TXBC, where the first 10-digits is ‘Parcel’ and the last 4-digits is ‘OwnrId’. Therefore, the unique key for the TXBC files is the combination of ‘Parcel’ and ‘OwnrId’. 
+Looking at the parcel number on the microfiche (Image 1), the sample is having the format of XX-XXXX-XXXX-XXXX. And from the data in TXBC_SUM_1990, the 'Parcel' column is presented as a 10-digits number and 'OwnrId' is a 4-digits number. It can be figured out that the parcel number from the microfiche is actually split up into 'Parcel' and 'OwnrId' columns of TXBC, where the first 10-digits is 'Parcel' and the last 4-digits is 'OwnrId'. Therefore, the unique key for the TXBC files is the combination of 'Parcel' and 'OwnrId'.
 
-Unfortunately, we have not yet discovered the accurate data for the lot size. The sample lot size from microfiche (Image 2) is 62.5000X101.5000. 
+Unfortunately, we have not yet discovered the accurate data for the lot size. The sample lot size from microfiche (Image 2) is 62.5000X101.5000.
+
+Throughout all data, we only found one column that contains "sqft" in the column labels. Therefore, we assume 'TotSqft' from the TXBC_SUM_1990 file is the reasonable data for sq ft in the microfiche. The reason we have to assume the 'TotSqft' as the matching information in the microfiche, is because the outcomes are widely spreaded from 4 to 2614058 other than the 0. Although there is also 'TotSqft' in the TCBC_SUM_1990 file, the only outcome is '0', which is not useful at all.
+
+Use code is a 2-digits number code in the TXBC_SUM_1990 file, it should be matching with other information, but the description of this code was not provided in the datasets given. Luckily, I was able to find a document published for the Reappraisal Plan for Tax Years 2015-2016 by the Texas Comptroller of Public Account. Page 59 of this document (Image 9), it recorded the Use Codes with its description that was organized by the type of use, which we are taking this information and form it into tables so we can connect between tables. However, the data contains a pretty decent amount of records '00' and 'None' that couldn't be identified.
+
+[![Image 9: Use Codes from Reappraisal Plan for Tax Years 2015-2016, Page 59](Microfiche_images/Use%20code%20image.png)](https://comptroller.texas.gov/taxes/property-tax/reappraisals/)
+
+From the same document by the Texas Comptroller of Public Account, it provides the description of EYOC, which is the “year built and the effective year of construction” ( ), and this information is in the TXBC_SUM_1990 file. This matches with one of our deliverables of effect date built on the microfiche. However, I believe that there’s some error with the data that was given to us from the TCAD, that there is a possible outcome with the year of 2971 and 0984. And in the data of EYOC, there is also having both None and 0000 and they are probably presenting the same meaning that they do not have the data for some records.
+
+Any deed information can only be found in the TXBC_SUM_1990 file. The deed volume and page number only have one outcome throughout, for both all presented with “00000”. And the deed date only has one record of “1900-00-00”. The reason resulting in this information is possibly due to different system collection of appraisal in 1900 and exportation in 2004. 
+
 
