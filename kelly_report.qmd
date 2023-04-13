@@ -1,0 +1,65 @@
+---
+title: "TCAD Report"
+author: "Kelly Chu"
+format: html
+editor: visual
+---
+
+## Introduction
+
+This project, started by a faculty colleague in urban studies, has a data dump from Travis Central Appraisal District (TCAD) on Austin property valuations in 1990 that exported around 2004. Where TCAD is the governmental entity responsible for appraising and assessing the value of all real and personal property in Travis County. Overall, the total size of these files are under 600MB uncompressed. The colleague would like to analyze these databases for his research, so the goal for this project is to gather the information and present the deliverable that would help in the research in the form that the faculty colleague can access it in a format that preferably in an excel sheet for all data. This project is a prototypical combo of archives, databases/data engineering, and some knowledge on geographic information system work.
+
+From the given annotated microfiche, it labeled all the tasks with an example of the following information: Parcel, lots size, use, sq ft , effect date built, deed date, land appraised value, improvement appraised value, owner name, mailing address, location, and Legal description. The final outcome to the faculty colleague will present a table in excel sheet that specifically extracts the data of these columns.
+
+## Data
+
+There are a total of two sets of folders that are given, the folder is named Appraisal_Roll_History_1990_A and Appraisal_Roll_History_B. Interestingly, these two folders contain the exact same files and in all files it has exactly the same information. This can be shown by running a python code that compare the folder:
+
+```{python}
+import os
+
+folder_A = 'data/Appraisal_Roll_History_1990_A'
+folder_B = 'data/Appraisal_Roll_History_1990_B'
+    file_B = os.path.join(folder_B, filename)
+
+    with open(file_A, "r") as a, open(file_B, "r") as b:
+        data_A = a.read()
+        data_B = b.read()
+
+    if data_A == data_B:
+        print(f"{filename}: Files are identical.")
+    else:
+        print(f"{filename}: Files are different.")
+```
+
+Within the folders, it contains 3 types of files:
+
+-   IDX files: CREATE INDEX statements
+
+-   TDF files: CREATE TABLE statements
+
+-   Text files (TXT): data/ records
+
+There are 2 general types of files, one is TCBC and the other is TXBC. From many searches, I assumed that TCBC is the abbreviation for Travis County Basic Code, and TXBC is the Travis County Extra-territory Basic Code. Where in these two general files there are some with suffixes followed:
+
+-   CFOR (CFOR code)
+
+-   GRANT_EXMP (grant exemption)
+
+-   JURIS (jurisdiction): Each jurisdiction has its own tax rate, which is used to calculate the property taxes owed on a particular property within that jurisdiction. The JURIS code is used by the appraisal district to identify the specific jurisdiction for each property within its jurisdictional area.
+
+-   JURIS_EXMP (jurisdiction exemption)
+
+-   LEGAL (legal description): Typically used to identify and define the property for legal and taxation purposes, and it may include information such as the property's lot number, block number, subdivision name, survey name, and other identifying details. It's used to accurately identify and assess the value of a property for taxation purposes.
+
+-   SUSP (suspended): When a property's value or other information is in the dispute or has not been fully determined. The SUSP code is used by the appraisal district to indicate that the assessment of a particular property is currently suspended or on hold for some reason.
+
+-   SUSP_INIT (suspended initial): The SUSP_INIT code is used by the appraisal district to indicate that the initial assessment of a particular property has been suspended.
+
+However, by looking at the file description, noticing that the data only provided are TCBC_SUM_1990, TCBC_SUM_1990_JURIS, TCBC_SUM_1990_LEGAL,TXBC_SUM_1990, TXBC_SUM_1990_JURIS, TXBC_SUM_1990_JURIS_EXMP, TXBC_SUM_1990_LEGAL.
+
+## Method and Tools
+
+To accomplish the tasks in this project, we have used Google Sheets to save our findings and list out the notes that can be shared within the teams. To unzip and read the files given, we used Python from JupyterHub under the EduPod server, and within imported the extension called DuckDB for running the SQL code in the Jupyter notebook.
+
+## Findings
