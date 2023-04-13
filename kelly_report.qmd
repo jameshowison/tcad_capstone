@@ -60,17 +60,6 @@ However, by looking at the file description, noticing that the data only provide
 
 ## Method and Tools
 
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+To accomplish the tasks in this project, we have used Google Sheets to save our findings and list out the notes that can be shared within the teams. To unzip and read the files given, we used Python from JupyterHub under the EduPod server, and within imported the extension called DuckDB for running the SQL code in the Jupyter notebook.
 
-```{r}
-1 + 1
-```
-
-You can add options to executable code like this
-
-```{r}
-#| echo: false
-2 * 2
-```
-
-The `echo: false` option disables the printing of code (only output is displayed).
+## Findings
