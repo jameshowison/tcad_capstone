@@ -1,7 +1,8 @@
 ---
 title: "TCAD Report - Aryan Bhalla"
-format: html
-editor: visual
+format:
+  html:
+    embed-resources: true
 ---
 
 ## Overview
