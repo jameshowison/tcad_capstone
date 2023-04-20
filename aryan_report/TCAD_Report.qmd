@@ -14,11 +14,11 @@ The project is a combination of database engineering, remote version control (Gi
 
 In order to simplify the data, the following objectives needed to be completed:
 
-1\) Creation of ER diagrams to show relationships between different types of data
+1. Creation of ER diagrams to show relationships between different types of data
 
-2\) Creation of CREATE TABLE statements by manually rewriting these to become headers for the imported delimiter text files in Python, and importing DuckDB to write the CREATE TABLE syntax in SQL formatting.
+2. Creation of CREATE TABLE statements by manually rewriting these to become headers for the imported delimiter text files in Python, and importing DuckDB to write the CREATE TABLE syntax in SQL formatting.
 
-3\) Extraction of the following data as explained in an annotated microfiche provided by Professor Heyman:
+3. Extraction of the following data as explained in an annotated microfiche provided by Professor Heyman:
 
 | parcel                      |
 |-----------------------------|
@@ -58,15 +58,15 @@ In order to simplify the data, the following objectives needed to be completed:
 
 When imported, the import had three types of files:
 
-1\) .tdf ending files, which contained the datatypes for the CREATE TABLE statements
+1. .tdf ending files, which contained the datatypes for the CREATE TABLE statements
 
-2\) .txt files, which were the records
+2. .txt files, which were the records
 
-3\) .idx files for the CREATE INDEX statements
+3. .idx files for the CREATE INDEX statements
 
 In addition, there were two folders which contained the files:
 
-1\) Appraisal_Role_History_1990_A
+1 Appraisal_Role_History_1990_A
 
 2\) Appraisal_Role_History_1990_B
 
@@ -92,7 +92,9 @@ For the project, the following tools were used:
 
 Before the data was imported, DuckDB was installed into the Python Script, .tdf files were read and schemas were created using the code below:
 
-```{import csv}
+```
+#| eval: false
+import csv
 from pathlib import Path
 import duckdb
 
@@ -173,13 +175,15 @@ Since there were no primary keys ascertainable at first look, the creation of co
 
 Once the tables were imported and the deliverables and their locations were found, the next step was to conduct analysis through SQL. SQK was imported into Python for use in DuckDB through the code shown below:
 
-\`\`\`{# setup from https://duckdb.org/docs/guides/python/jupyter.html} import duckdb import pandas as pd \# No need to import duckdb_engine \# jupysql will auto-detect the driver needed based on the connection string!
+```
+#| eval: false
+# setup from https://duckdb.org/docs/guides/python/jupyter.html import duckdb import pandas as pd \# No need to import duckdb_engine \# jupysql will auto-detect the driver needed based on the connection string!
 
 # Import jupysql Jupyter extension to create SQL cells
 
 %load_ext sql %config SqlMagic.autopandas = True %config SqlMagic.feedback = False %config SqlMagic.displaycon = False
 
-\`\`\`
+```
 
 Once the schema names and table locations were configured, the tables were ready for SQL analysis.
 
