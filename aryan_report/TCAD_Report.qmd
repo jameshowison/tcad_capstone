@@ -1,0 +1,217 @@
+---
+title: "TCAD Report - Aryan Bhalla"
+format:
+  html:
+    embed-resources: true
+---
+
+## Overview
+
+The Travis Central Appraisal District (TCAD) holds data about property valuations in Austin, Texas. Professor Richard Heyman, a professor in the Urban Planning department, requires information about these valuations for research purposes. The objective of the project is to simplify the data and generate exports workable for the client.
+
+The project is a combination of database engineering, remote version control (GitHub), GIS and archival work
+
+## Goals
+
+In order to simplify the data, the following objectives needed to be completed:
+
+1. Creation of ER diagrams to show relationships between different types of data
+
+2. Creation of CREATE TABLE statements by manually rewriting these to become headers for the imported delimiter text files in Python, and importing DuckDB to write the CREATE TABLE syntax in SQL formatting.
+
+3. Extraction of the following data as explained in an annotated microfiche provided by Professor Heyman:
+
+| parcel                      |
+|-----------------------------|
+| lots size                   |
+| use                         |
+| sq ft                       |
+| effect date built           |
+| deed date                   |
+| land appraised value        |
+| improvement appraised value |
+| jurisdiction                |
+| jurisdiction amount         |
+| owner name                  |
+| mailing address             |
+| location                    |
+| Legal description           |
+
+![](images/Appraised%20Values.jpg)
+
+![](images/Date%20of%20Deed.jpg)
+
+![](images/Parcel%20Number.jpg)
+
+![](images/Deed%20Location.jpg)
+
+![](images/Effect%20date.jpg)
+
+![](images/Legal.jpg)
+
+![](images/Location.jpg)
+
+![](images/Lot%20Size.jpg)
+
+![](images/Tax%20Jurisdictions.jpg)
+
+## Initial Files
+
+When imported, the import had three types of files:
+
+1. .tdf ending files, which contained the datatypes for the CREATE TABLE statements
+
+2. .txt files, which were the records
+
+3. .idx files for the CREATE INDEX statements
+
+In addition, there were two folders which contained the files:
+
+1 Appraisal_Role_History_1990_A
+
+2\) Appraisal_Role_History_1990_B
+
+Both folders had the same set of files, which was verified by running Python Code discussed below.
+
+## Tools
+
+For the project, the following tools were used:
+
+1\) JupyterHub - Python, using Edupod provided by the University of Texas at Austin
+
+2\) DuckDB - Online Data Analytical dashboard, imported into Python on JupyterHub using pip
+
+3\) GitHub - Version control system
+
+4\) Google sheets - For collaboration and keeping track of progress in real time
+
+5\) SQL - used in DuckDB syntax on JupyterHub to analyze the data
+
+## Process:
+
+#### Import of files into readable format
+
+Before the data was imported, DuckDB was installed into the Python Script, .tdf files were read and schemas were created using the code below:
+
+```
+#| eval: false
+import csv
+from pathlib import Path
+import duckdb
+
+con = duckdb.connect('duckdb-file.db') #  string to persist to disk
+cursor = con.cursor()
+
+# file_directory = 'shortened_appraisal_files/'
+file_directory = 'data/'
+# limit_to_file = 'TCBC_SUM_1990_JURIS'
+limit_to_file = '*' # all files
+
+# create schemas
+cursor.execute("CREATE SCHEMA IF NOT EXISTS folder_A_TCBC;")
+cursor.execute("CREATE SCHEMA IF NOT EXISTS folder_A_TXBC;")
+cursor.execute("CREATE SCHEMA IF NOT EXISTS folder_B_TCBC;")
+cursor.execute("CREATE SCHEMA IF NOT EXISTS folder_B_TXBC;")
+# delete schemas that created previously
+# cursor.execute("DROP SCHEMA IF EXISTS folder_A CASCADE")
+# cursor.execute("DROP SCHEMA IF EXISTS folder_B CASCADE")
+
+for filename in Path(file_directory).rglob(limit_to_file + '.TDF'):
+    print(filename.parts)
+    if "_A" in filename.parts[1] and "TCBC_" in filename.parts[2]:
+        schema = "folder_A_TCBC"
+    elif "_A" in filename.parts[1] and "TXBC_" in filename.parts[2]:
+        schema = "folder_A_TXBC"
+    elif "_B" in filename.parts[1] and "TCBC_" in filename.parts[2]:
+        schema = "folder_B_TCBC"
+    elif "_B" in filename.parts[1] and "TXBC_" in filename.parts[2]:
+        schema = "folder_B_TXBC"
+    else:
+        exit("can't set schema")
+    
+    table_name = schema + "." + Path(filename).stem # e.g., A_TCBC_SUM_1990_JURIS
+
+    # read .TDF file into string
+    create_table_sql = Path(filename).read_text()
+    # Need to alter table name to read in both _A and _B files
+    create_table_sql = create_table_sql.replace(Path(filename).stem, table_name)
+    
+```
+
+After this, there was the addition of code for the setup of sql in dbdocs, and printing tables. Once the tables were printed, they were returned in two types of files:
+
+1\) TCBC: Travis County Basic Code
+
+2\) TXBC: Travis County Extra-territory Basic Code
+
+Both TXBC and TCBC had the following types of files, which contained various different data types:
+
+1\) SUM : Contained a sum of the majority of info for properties, including Account number (TCBC), Parcel Number (TXBC), Mailing Addresses, Owner Names, Different values and appraisals, and other general information
+
+2\) SUSP: Contained info for properties whose property valuation has been suspended or is unknown for various reasons
+
+3\) SUSP_INIT: When the initial assessment of a property type has been disregarded
+
+4\) LEGAL: Contains legal information for properties used to identify them
+
+5\) CFOR: Contains Cfor codes for different properties
+
+6\) JURIS: Contains information about the jurisdiction the property lies in for tax purposes
+
+7\) JURIS_EXEMPT: Properties that are suspended from jurisdictions and are independent
+
+8\) GRANT_EXEMPT: Properties that are exempted through governmental grants. Exemption is assumed to be from taxation, real exemption reasons warrant further investigation
+
+#### Creation of Relationships
+
+Once the tables were drawn, the relationships between them were ascertained. Although, the entity relationship diagrams were being created simultaneously, since the data types within the tables were known.
+
+Upon investigation, the common links found between TCBC files were Account Number, Tax Year and Suffix ID. The common links between TXBC files were Parcel Number, Tax Year and Owner ID. Most connections between TXBC and TCBC files existed within the sum files for both. A snapshot of the relationships is shown below:
+
+![](images/ER%20diagram.jpg)
+
+Since there were no primary keys ascertainable at first look, the creation of composite keys would have served a function when creating tables. However, through the code shown above, the implementation of that step for the purposes and scope of the project was not necessary.
+
+#### SQL for Analysis in Python Through DuckDB
+
+Once the tables were imported and the deliverables and their locations were found, the next step was to conduct analysis through SQL. SQK was imported into Python for use in DuckDB through the code shown below:
+
+```
+#| eval: false
+# setup from https://duckdb.org/docs/guides/python/jupyter.html import duckdb import pandas as pd \# No need to import duckdb_engine \# jupysql will auto-detect the driver needed based on the connection string!
+
+# Import jupysql Jupyter extension to create SQL cells
+
+%load_ext sql %config SqlMagic.autopandas = True %config SqlMagic.feedback = False %config SqlMagic.displaycon = False
+
+```
+
+Once the schema names and table locations were configured, the tables were ready for SQL analysis.
+
+#### SQL Analysis to Find Deliverable
+
+SQL queries using standard syntax were used to find the positions of various deliverables within the files. Incidentally, all the deliverables were located within the TXBC files. Specifically, the TXBC_SUM_1990 file gave important locations and clues about where to find the deliverables, as well as hosting a lot of the desired deliverables within the data. A snapshot of various deliverables found in the TXBC files can be seen below:
+
+![](images/SQL%20Outputs.jpg)
+
+Over here, it can be seen that parcel number, Use Code, Square Foot Size, Deed Date, Owner Name, Mailing Addresses, Location, and Land Cost Values are contained in the TXBC_SUM_1990 table. More locations of the required deliverables are currently being consolidated.
+
+#### Next Steps
+
+While primary analysis is nearly complete, further investigation is warranted into the following:
+
+1\) Understanding the relationships between TXBC and TCBC files. Although they contain various information, it is fascinating that a lot of deliverables are located in the extra territorial files and not the TCBC files.
+
+2\) Possible data cleaning to remove null values and possible duplicates from the data
+
+3\) Finding more information about other tables, and to pursue links that can give the status of jurisdictions, amounts, and lot sizes
+
+4\) Finding appraised values in the data. While there are multiple fields within the data that could be the appraised value, the difference between initial value and appraised value, or their relationship, is unclear. In addition, the reason for the inclusion of various valuations within the TXBC_SUM_1990 table is unclear.
+
+5\) Gathering more information about the use codes and their significance, and importing a table into Duckdb along with the other data that can reveal the connections between use codes and property types.
+
+Once these investigations are made and conclusions are reached, the final exports will be generated and delivered to Professor Heyman for his research.
+
+#### Conclusion
+
+Both TCBC and TCBC files contain data about property valuations in Travis County. Most of the deliverables are located within the TXBC files. The process consisted of importing DuckDb, and all the files along with schema names, into Python, and then conducting SQL analysis to find the deliverables.
