@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Kelly Chu">
+
+<title>TCAD Report</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="kelly_report_files/libs/clipboard/clipboard.min.js"></script>
+<script src="kelly_report_files/libs/quarto-html/quarto.js"></script>
+<script src="kelly_report_files/libs/quarto-html/popper.min.js"></script>
+<script src="kelly_report_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="kelly_report_files/libs/quarto-html/anchor.min.js"></script>
+<link href="kelly_report_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="kelly_report_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="kelly_report_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="kelly_report_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="kelly_report_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">TCAD Report</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Kelly Chu </p>
+          </div>
+  </div>
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>This project, started by a faculty colleague in urban studies, has a data dump from Travis Central Appraisal District (TCAD) on Austin property valuations in 1990 that were exported around 2004. Where TCAD is the governmental entity responsible for appraising and assessing the value of all real and personal property in Travis County. Overall, the total size of these files is under 600MB uncompressed. The colleague would like to analyze these databases for his research, so the goal for this project is to gather the information and present the deliverable that would help in the research in the form that the faculty colleague can access in a format that preferably in an Excel sheet for all data. This project is a prototypical combo of archives, databases/data engineering, and some knowledge of geographic information system work.</p>
+<p>From the given annotated microfiche, it labeled all the tasks with an example of the following information: Parcel, lot size, use, sq ft, effect date built, deed date, land appraised value, improvement appraised value, owner name, mailing address, location, and Legal description. The outcome to faculty colleagues will present a table in an Excel sheet that specifically extracts the data of these columns.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Microfiche_images/Parcel%20Number.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Image 1: Annotated microfiche parcel</figcaption><p></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Microfiche_images/Lot%20size.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Image 2: Annotated microfiche lot size, use code, and sq ft</figcaption><p></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Microfiche_images/EYOC.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Image 3: Annotated microfiche effect date built</figcaption><p></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Microfiche_images/Deed%20date.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Image 4: Annotated microfiche deed date</figcaption><p></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Microfiche_images/Appr_value%20and%20Impr_value.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Image 5: Annotated microfiche land appraised value and improvement appraised value</figcaption><p></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Microfiche_images/name%20and%20mailing.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Image 6: Annotated microfiche owner’s name and mailing address</figcaption><p></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Microfiche_images/Location.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Image 7: Annotated microfiche location</figcaption><p></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Microfiche_images/Legal%20description.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Image 8: Annotated microfiche legal description</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="data" class="level2">
+<h2 class="anchored" data-anchor-id="data">Data</h2>
+<p>There are a total of two sets of folders that gave, the folder is named Appraisal_Roll_History_1990_A and Appraisal_Roll_History_B. Interestingly, these two folders contain the same files, and all files it has the same information. This can be shown by running a Python code that compares between the folders:</p>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>folder_A <span class="op">=</span> <span class="st">'data/Appraisal_Roll_History_1990_A'</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>folder_B <span class="op">=</span> <span class="st">'data/Appraisal_Roll_History_1990_B'</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> filename <span class="kw">in</span> os.listdir(folder_A):</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    file_A <span class="op">=</span> os.path.join(folder_A, filename)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    file_B <span class="op">=</span> os.path.join(folder_B, filename)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(file_A, <span class="st">"r"</span>) <span class="im">as</span> a, <span class="bu">open</span>(file_B, <span class="st">"r"</span>) <span class="im">as</span> b:</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        data_A <span class="op">=</span> a.read()</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        data_B <span class="op">=</span> b.read()</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> data_A <span class="op">==</span> data_B:</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>filename<span class="sc">}</span><span class="ss">: Files are identical."</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>filename<span class="sc">}</span><span class="ss">: Files are different."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>TCBC_SUM_1990_GRANT_EXMP.TDF: Files are identical.
+TXBC_SUM_1990_SUSP.TXT: Files are identical.
+TXBC_SUM_1990_SUSP.IDX: Files are identical.
+TXBC_SUM_1990_JURIS.TXT: Files are identical.
+TXBC_SUM_1990_JURIS.IDX: Files are identical.
+TXBC_SUM_1990_JURIS_EXMP.TDF: Files are identical.
+TXBC_SUM_1990_USECODE.TDF: Files are identical.
+TCBC_SUM_1990_SUSP.IDX: Files are identical.
+TCBC_SUM_1990_SUSP.TXT: Files are identical.
+TCBC_SUM_1990_JURIS.IDX: Files are identical.
+TCBC_SUM_1990_JURIS.TXT: Files are identical.
+TXBC_SUM_1990_SUSP_INIT.TDF: Files are identical.
+TXBC_SUM_1990_SUSP_INIT.IDX: Files are identical.
+TXBC_SUM_1990_SUSP_INIT.TXT: Files are identical.
+TCBC_SUM_1990_SUSP.TDF: Files are identical.
+TCBC_SUM_1990_JURIS.TDF: Files are identical.
+TXBC_SUM_1990_USECODE.TXT: Files are identical.
+RPT_TX1333_1990_20040701_162440.TXT: Files are identical.
+TXBC_SUM_1990_JURIS.TDF: Files are identical.
+TXBC_SUM_1990_JURIS_EXMP.IDX: Files are identical.
+TXBC_SUM_1990_JURIS_EXMP.TXT: Files are identical.
+TXBC_SUM_1990_SUSP.TDF: Files are identical.
+TCBC_SUM_1990_GRANT_EXMP.TXT: Files are identical.
+TCBC_SUM_1990_GRANT_EXMP.IDX: Files are identical.
+RPT_TC2333_1990_20040701_162440.TXT: Files are identical.
+TXBC_SUM_1990.TDF: Files are identical.
+TCBC_SUM_1990_SUSP_INIT.TDF: Files are identical.
+TXBC_SUM_1990_CFOR.IDX: Files are identical.
+TXBC_SUM_1990_CFOR.TXT: Files are identical.
+TXBC_SUM_1990_LEGAL.IDX: Files are identical.
+TXBC_SUM_1990_LEGAL.TXT: Files are identical.
+TCBC_SUM_1990_JURIS_EXMP.TDF: Files are identical.
+TCBC_SUM_1990.TXT: Files are identical.
+TCBC_SUM_1990.IDX: Files are identical.
+TCBC_SUM_1990_LEGAL.TXT: Files are identical.
+TCBC_SUM_1990_CFOR.TXT: Files are identical.
+TCBC_SUM_1990_LEGAL.IDX: Files are identical.
+TCBC_SUM_1990_CFOR.IDX: Files are identical.
+TXBC_SUM_1990_GRANT_EXMP.TDF: Files are identical.
+TXBC_SUM_1990_GRANT_EXMP.IDX: Files are identical.
+TXBC_SUM_1990_GRANT_EXMP.TXT: Files are identical.
+TCBC_SUM_1990.TDF: Files are identical.
+TCBC_SUM_1990_LEGAL.TDF: Files are identical.
+TCBC_SUM_1990_CFOR.TDF: Files are identical.
+TCBC_SUM_1990_JURIS_EXMP.TXT: Files are identical.
+TCBC_SUM_1990_JURIS_EXMP.IDX: Files are identical.
+TXBC_SUM_1990_LEGAL.TDF: Files are identical.
+TXBC_SUM_1990_CFOR.TDF: Files are identical.
+TCBC_SUM_1990_SUSP_INIT.IDX: Files are identical.
+TCBC_SUM_1990_SUSP_INIT.TXT: Files are identical.
+TXBC_SUM_1990.IDX: Files are identical.
+TXBC_SUM_1990.TXT: Files are identical.</code></pre>
+</div>
+</div>
+<p>Within the folders, it contains 3 types of files:</p>
+<ul>
+<li><p>IDX files: CREATE INDEX statements</p></li>
+<li><p>TDF files: CREATE TABLE statements</p></li>
+<li><p>Text files (TXT): data/ records</p></li>
+</ul>
+<p>There are 2 general types of files, one is TCBC and the other is TXBC. From many searches, I assumed that TCBC is the abbreviation for Travis County Basic Code, and TXBC is the Travis County Extra-territory Basic Code. Where in these two general files there are some with suffixes following:</p>
+<ul>
+<li><p><em>CFOR (CFOR code)</em></p></li>
+<li><p><em>GRANT_EXMP (grant exemption)</em></p></li>
+<li><p><em>JURIS (jurisdiction)</em>: Each jurisdiction has its tax rate, which is used to calculate the property taxes owed on a particular property within that jurisdiction. The JURIS code is used by the appraisal district to identify the specific jurisdiction for each property within its jurisdictional area.</p></li>
+<li><p><em>JURIS_EXMP (jurisdiction exemption)</em></p></li>
+<li><p><em>LEGAL (legal description)</em>: Typically used to identify and define the property for legal and taxation purposes, and it may include information such as the property’s lot number, block number, subdivision name, survey name, and other identifying details. It’s used to accurately identify and assess the value of a property for taxation purposes.</p></li>
+<li><p><em>SUSP (suspended)</em>: When a property’s value or other information is in the dispute or has not been fully determined. The SUSP code is used by the appraisal district to indicate that the assessment of a particular property is currently suspended or on hold for some reason.</p></li>
+<li><p><em>SUSP_INIT (suspended initial</em>): The SUSP_INIT code is used by the appraisal district to indicate that the initial assessment of a particular property has been suspended.</p></li>
+</ul>
+<p>However, by looking at the file description, noticing that the data only provided are <code>TCBC_SUM_1990</code>, <code>TCBC_SUM_1990_JURIS</code>, <code>TCBC_SUM_1990_LEGAL</code>, <code>TXBC_SUM_1990</code>, <code>TXBC_SUM_1990_JURIS</code>, <code>TXBC_SUM_1990_JURIS_EXMP</code>, <code>TXBC_SUM_1990_LEGAL</code>.</p>
+<p>Other than the datasets provided by TCAD, I also created the data for the use code where the source is from page 59 of the Reappraisal Plan for Tax Years 2015-2016 by the Texas Comptroller of Public Account (Image 9). I have followed the formatting of .TXT and . TDF files the same way that was given, it is named <code>TXBC_SUM_1990_USECODE</code>. So, it allows me to upload the file into a folder where all files were unzipped and load the data all together in both folders A and B.</p>
+</section>
+<section id="method-and-tools" class="level2">
+<h2 class="anchored" data-anchor-id="method-and-tools">Method and Tools</h2>
+<p>To accomplish the tasks in this project, we have used Google Sheets to save our findings and list out the notes that can be shared within the teams. To unzip and read the files given, we used Python from JupyterHub under the EduPod server and imported the extension called DuckDB for running the SQL code in the Jupyter Notebook.</p>
+<p>The relationship between the data can be presented with the Entity Relation Diagram (ER Diagram) using dbDocs.</p>
+<p>[image here for ER diagram]</p>
+</section>
+<section id="findings" class="level2">
+<h2 class="anchored" data-anchor-id="findings">Findings</h2>
+<p>The deliverable from the annotated microfiche are mostly found in the TXBC (Travis County Extra-territory Basic Code) files. However, the client is not looking for extra-territory records. This makes some confusion about whether or not the TXBC represents the Travis County Extra-territory Basic Code. If not, what is the difference between TXBC and TCBC?</p>
+<section id="parcel-number-with-ownerid" class="level5">
+<h5 class="anchored" data-anchor-id="parcel-number-with-ownerid">Parcel Number with OwnerId</h5>
+<p>Looking at the parcel number on the microfiche (Image 1), the sample is having the format of XX-XXXX-XXXX-XXXX. And from the data in TXBC_SUM_1990, the <code>Parcel</code> column is presented as a 10-digit number, and <code>OwnrId</code> is a 4-digits number. It can be figured out that the parcel number from the microfiche is split up into ‘Parcel’ and ‘OwnrId’ columns of TXBC, where the first 10-digits are ‘Parcel’ and the last 4-digits is ‘OwnrId’. Therefore, the unique key for the TXBC files is the combination of ‘Parcel’ and ‘OwnrId’.</p>
+</section>
+<section id="lot-size" class="level5">
+<h5 class="anchored" data-anchor-id="lot-size">Lot size</h5>
+<p>Unfortunately, we have not yet discovered the accurate data for the lot size. The sample lot size from microfiche (Image 2) is 62.5000X101.5000.</p>
+</section>
+<section id="square-feet" class="level5">
+<h5 class="anchored" data-anchor-id="square-feet">Square feet</h5>
+<p>Throughout all data, we only found one column that contains “sqft” in the column labels. Therefore, we assume <code>TotSqft</code> from the TXBC_SUM_1990 file is the reasonable data for sq ft in the microfiche. The reason we have to assume the <code>TotSqft</code> as the matching information in the microfiche is that the outcomes are widely spread from 4 to 2614058 other than 0. Although there is also <code>TotSqft</code> in the <code>TCBC_SUM_1990</code> file, the only outcome is ‘0’, which is not useful at all.</p>
+</section>
+<section id="use-code" class="level5">
+<h5 class="anchored" data-anchor-id="use-code">Use code</h5>
+<p>The use code is a 2-digit number code in the <code>TXBC_SUM_1990</code> file, it should be matching with other information, but the description of this code was not provided in the datasets given. Luckily, I was able to find a document published for the Reappraisal Plan for Tax Years 2015-2016 by the Texas Comptroller of Public Account. Page 59 of this document (Image 9), recorded the Use Codes with its description that was organized by the type of use, we are taking this information and forming it into tables so we can connect between tables. However, the data contains a pretty decent amount of records ‘00’ and ‘None’ that couldn’t be identified. With the information that was created for the additional text file (<code>TXBC_SUM_1990_USECODE</code>), it could load the use code description and its category into the table and match the code from <code>TXBC_SUM_1990</code>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://comptroller.texas.gov/taxes/property-tax/reappraisals/"><img src="Microfiche_images/Use%20code%20image.png" class="img-fluid figure-img"></a></p>
+<p></p><figcaption class="figure-caption">Image 9: Use Codes from Reappraisal Plan for Tax Years 2015-2016, Page 59</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="eyoc-effective-year-of-construction-or-year-built" class="level5">
+<h5 class="anchored" data-anchor-id="eyoc-effective-year-of-construction-or-year-built">EYOC (effective year of construction or year built)</h5>
+<p>The same document by the Texas Comptroller of Public Account describes EYOC, which is the “year built and the effective year of construction” (TCAD 2014), and this information is in the TXBC_SUM_1990 file. This matches with one of our deliverables of effect date built on the microfiche. However, I believe that there’s some error with the data that was given to us from the TCAD and that there is a possible outcome with the years 2971 and 0984. And in the data of EYOC, there are also both None and 0000 and they are probably presenting the same meaning that they do not have the data for some records.</p>
+</section>
+<section id="deed-information-volume-page-and-date" class="level5">
+<h5 class="anchored" data-anchor-id="deed-information-volume-page-and-date">Deed information (volume, page, and date)</h5>
+<p>Any deed information can only be found in the TXBC_SUM_1990 file. The deed volume and page number only have one outcome throughout, for both are all presented with “00000”. And the deed date only has one record of “1900-00-00”. The reason resulting in this information is possibly due to different systems of collection of appraisal in 1900 and exportation in 2004.</p>
+</section>
+<section id="land-appraised-value-and-improvement-appraised-value" class="level5">
+<h5 class="anchored" data-anchor-id="land-appraised-value-and-improvement-appraised-value">Land appraised value and improvement appraised value</h5>
+<p>Part of the important deliverable is the land appraised value and the improvement appraised value, and this information can only be found in the TXBC_SUM_1990_JURIS file. Some interesting information is the value of <code>LandMktVal</code> seems to match with <code>LandApprdVal</code>, and <code>ImprMktVal</code> matches with the <code>ImprApprdVal</code>. And the total appraised value (<code>TotApprdVal</code>) is the sum of the land appraised value and improvement appraised value, which can be found in the TXBC_SUM_1990_JURIS file.</p>
+</section>
+<section id="owner-name" class="level5">
+<h5 class="anchored" data-anchor-id="owner-name">Owner name</h5>
+<p>The owner name (<code>OwnerName</code>) is the basic information that can be found in both TCBC_SUM_1990 and TXBC_SUM_1990. The records are different between these two files, but since the rest of the deliverables are from the TXBC files, it is more efficient to look at the TXBC_SUM_1990 for the records, unless working with the TCBC dataset.</p>
+</section>
+<section id="mailing-address" class="level5">
+<h5 class="anchored" data-anchor-id="mailing-address">Mailing address</h5>
+<p>The mailing address has split into a maximum of 5 cells from the TXBC_SUM_1990 file. By viewing the <code>MailCnt</code> before reading the mailing address (<code>MailAddr1</code>, <code>MailAddr2</code>, <code>MailAddr3</code>, <code>MailAddr4</code>, and <code>MailAddr5</code>) it can tell the information of how many cells the mailing address is split into.</p>
+</section>
+<section id="location" class="level5">
+<h5 class="anchored" data-anchor-id="location">Location</h5>
+<p>Location can also be found in both TCBC_SUM_1990 and TXBC_SUM_1990 datasets. With consistent reasoning, it is more efficient to continue using the TXBC file. There is a column of data that records the entire location, and six other columns are the split record of this appraisal history. If looking at the overall location information for the research, it can use the column called <code>FmtLoc</code>, and if would like to organize and get information about the location individually, then it is more efficient to just read separately for <code>LocStreet</code>, <code>LocHouse</code>, <code>LocFrac</code>, <code>LocAlpha</code>, <code>LocUnit</code>, and<code>LocZip</code>.</p>
+</section>
+<section id="legal-description" class="level5">
+<h5 class="anchored" data-anchor-id="legal-description">Legal description</h5>
+<p>Legal descriptions are stored in both TXBC and TCBC files that have the suffix LEGAL (<code>TXBC_SUM_1990_LEGAL</code> and <code>TCBC_SUM_1990_LEGAL</code>). Since the unique keys that are used are the <code>Parcel</code> and <code>OwnrId</code>, therefore we are using the TXBC information instead of TCBC. The pattern of the legal description has not yet been discovered with <code>LegalSub1</code>, <code>LegalSub2</code>, <code>LegalCd1</code>, <code>LegalLn1</code>, <code>LegalCd2</code>, <code>LegalLn2</code>, <code>LegalCd3</code>, <code>LegalLn3</code>, <code>LegalCd4</code>, <code>LegalLn4</code>, <code>LegalCd5</code>, <code>LegalLn5</code>, <code>LegalCd6</code>, and <code>LegalLn6</code>.</p>
+</section>
+</section>
+<section id="challenges-and-discussions" class="level2">
+<h2 class="anchored" data-anchor-id="challenges-and-discussions">Challenges and discussions</h2>
+<p>At the start of this project, we faced some difficulties in understanding the content of the data given. I took lots of time just browsing on the internet to look for the description of abbreviations that includes in the data, just like TCBC and TXBC means Travis County Basic Code and Travis County Extra-territory Basic Code, this definition is the most reasonable from my searches, but it still has the possibility that is representing something else. Another challenge that we haven’t discovered is the data for lot size, this is one the important information for the client’s research. To find the solution, we probably need to look into the TCAD website to find if there’s any other data matching, this may need to dive in by individual records.</p>
+<p>Some further discussion can be:</p>
+<ul>
+<li><p>What data would fit in with the lot size?</p></li>
+<li><p>Is there information on the file that started with RPT that we needed? It seems like the actual record summaries.</p></li>
+<li><p>The actual definition of TCBC is Travis County Basic Code? And TXBC is Travis County Extra-territory Basic Code?</p></li>
+<li><p>The name of the files all included ‘SUM’, does that mean summary?</p></li>
+</ul>
+</section>
+<section id="reference-mla" class="level2">
+<h2 class="anchored" data-anchor-id="reference-mla">Reference (MLA)</h2>
+<p>“Reappraisal Plans for Tax Years 2015 &amp; 2016.” Comptroller.texas.gov, TRAVIS CENTRAL APPRAISAL DISTRICT, 19 Aug.&nbsp;2014, comptroller.texas.gov/taxes/property-tax/reappraisals/. Accessed 14 Apr.&nbsp;2023.</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
